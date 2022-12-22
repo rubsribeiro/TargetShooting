@@ -1,0 +1,74 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+    alert ('Target Shooting')
+
+   var screen = document.querySelector('canvas');
+   var brush = screen.getContext('2d');
+
+   brush.fillStyle = 'white';
+   brush.fillRect (0,0,600,400);
+
+   var radius = 10;
+   var xRandom; 
+   var yRandom;
+
+   function drawCircle(x,y,radius, color) {
+
+        brush.fillStyle = color;
+        brush.beginPath();
+        brush.arc (x, y, radius, 0, 2* Math.PI);
+        brush.fill();
+   }
+
+   function cleanScreen() {
+
+        brush.clearRect (0,0,600,400);
+
+   }
+
+   function drawTarget (x, y) {
+
+   drawCircle (x,y,radius+20,'red');
+   drawCircle (x,y,radius+10,'white');
+   drawCircle (x,y,radius,'red');
+   
+   }
+
+   function draftPosition (maximum) {
+
+    return Math.floor (Math.random() * maximum);
+
+   }
+
+   function updateScreen () {
+
+    cleanScreen();
+   xRandom = draftPosition (600);
+   yRandom = draftPosition (400);
+   drawTarget(xRandom, yRandom);
+
+   }
+
+   setInterval(updateScreen, 1000);
+
+   function shoot (event) {
+
+    var x = event.pageX - screen.offsetLeft;
+    var y = event.pageY - screen.offsetTop;
+
+    if ((x > xRandom - radius) 
+        && (x < xRandom + radius) 
+        && (y > yRandom - radius) 
+        && (y < yRandom + radius)) {
+
+        alert ('Right');
+   }
+
+}
+   screen.onclick = shoot;
+
+</script>
+
+    
